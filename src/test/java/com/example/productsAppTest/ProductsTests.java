@@ -3,6 +3,8 @@ package com.example.productsAppTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Iterator;
 import java.util.List;
@@ -76,5 +78,23 @@ public class ProductsTests {
 		
 		assertThat(products).size().isGreaterThan(0);
 		//El tamaño de la lista se va a confirmar si es mayor a 0
+	}
+	
+	@Test
+	@Rollback(false)
+	//por default es true, pero para poder guardar datos tiene que ser false
+	public void testDeleteProduct() {
+		Integer id = 4;
+		
+		boolean isExistingBeforeDeleting = repository.findById(id).isPresent();
+		//Pregunta si es presente, y si lo es sera true, sino false
+		
+		repository.deleteById(id);
+		
+		boolean isNotExistingLaterDeleting = repository.findById(id).isPresent();
+		//Comprueba si ya no existe luego de eliminar
+		
+		assertTrue(isExistingBeforeDeleting);//Confirma si el valor es true
+		assertFalse(isNotExistingLaterDeleting);//Confirma si el valor es false
 	}
 }
