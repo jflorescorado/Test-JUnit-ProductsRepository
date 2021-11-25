@@ -49,4 +49,18 @@ public class ProductsTests {
 		
 		assertNull(products);
 	}
+	
+	@Test
+	@Rollback(false)
+	//por default es true, pero para poder guardar datos tiene que ser false
+	public void testUpdateProduct() {
+		String nameProduct = "SmartTV Samsung 4k";//el nuevo valor 
+		Products products = new Products(nameProduct, 350);//valores nuevos
+		products.setIdProduct(3);//id de product a modificar
+		
+		repository.save(products);
+		
+		Products productsUpdate = repository.findByName(nameProduct);
+		assertThat(productsUpdate.getName()).isEqualTo(nameProduct);
+	}
 }
