@@ -62,6 +62,10 @@ public class Products {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Products [idProduct=" + idProduct + ", name=" + name + ", price=" + price + "]";
+	}
 	
 }

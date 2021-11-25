@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +56,25 @@ public class ProductsTests {
 	@Rollback(false)
 	//por default es true, pero para poder guardar datos tiene que ser false
 	public void testUpdateProduct() {
-		String nameProduct = "SmartTV Samsung 4k";//el nuevo valor 
-		Products products = new Products(nameProduct, 350);//valores nuevos
-		products.setIdProduct(3);//id de product a modificar
+		String nameProduct = "iPhone 12";//el nuevo valor 
+		Products products = new Products(nameProduct, 320);//valores nuevos
+		products.setIdProduct(4);//id de product a modificar
 		
 		repository.save(products);
 		
 		Products productsUpdate = repository.findByName(nameProduct);
 		assertThat(productsUpdate.getName()).isEqualTo(nameProduct);
+	}
+	
+	@Test
+	public void testListProduct() {
+		List<Products> products = (List<Products>) repository.findAll();
+		
+		for (Products product : products) {
+			System.out.println(products);
+		}
+		
+		assertThat(products).size().isGreaterThan(0);
+		//El tamaño de la lista se va a confirmar si es mayor a 0
 	}
 }
