@@ -2,6 +2,8 @@ package com.example.productsAppTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,13 @@ public class ProductsTests {
 		Products products = repository.findByName(name);
 		
 		assertThat(products.getName()).isEqualTo(name);
+	}
+	
+	@Test
+	public void testFindByNameProductNotExistence() {
+		String name = "iPhone 11";
+		Products products = repository.findByName(name);
+		
+		assertNull(products);
 	}
 }
