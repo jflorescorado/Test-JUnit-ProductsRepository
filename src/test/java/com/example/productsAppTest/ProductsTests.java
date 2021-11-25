@@ -1,5 +1,6 @@
 package com.example.productsAppTest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -29,5 +30,13 @@ public class ProductsTests {
 		
 		assertNotNull(productsSave);
 		//Confirma la prueba unitaria siempre y cuando el valor no sea nulo
+	}
+	
+	@Test
+	public void testFindByNameProduct() {
+		String name = "iPhone 11";
+		Products products = repository.findByName(name);
+		
+		assertThat(products.getName()).isEqualTo(name);
 	}
 }
