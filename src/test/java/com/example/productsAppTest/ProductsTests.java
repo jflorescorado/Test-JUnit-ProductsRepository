@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.Iterator;
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -22,6 +24,7 @@ import com.example.productsAppTest.entity.Products;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 //Indica que realice las operaciones en la base de datos de real y ya no solamente en memoria H2
+@TestMethodOrder(OrderAnnotation.class)
 public class ProductsTests {
 
 	@Autowired
@@ -30,8 +33,9 @@ public class ProductsTests {
 	@Test
 	@Rollback(false)
 	//por default es true, pero para poder guardar datos tiene que ser false
+	@Order(1)
 	public void testSaveProduct() {
-		Products products = new Products("SmartTV Samsung HD", 300);
+		Products products = new Products("SmartPhone Huawei p40", 300);
 		Products productsSave = repository.save(products);
 		
 		assertNotNull(productsSave);
@@ -39,14 +43,16 @@ public class ProductsTests {
 	}
 	
 	@Test
+	@Order(2)
 	public void testFindByNameProduct() {
-		String name = "iPhone 11";
+		String name = "SmartTV Samsung 4k";
 		Products products = repository.findByName(name);
 		
 		assertThat(products.getName()).isEqualTo(name);
 	}
 	
 	@Test
+	@Order(3)
 	public void testFindByNameProductNotExistence() {
 		String name = "iPhone 11";
 		Products products = repository.findByName(name);
@@ -57,6 +63,7 @@ public class ProductsTests {
 	@Test
 	@Rollback(false)
 	//por default es true, pero para poder guardar datos tiene que ser false
+	@Order(4)
 	public void testUpdateProduct() {
 		String nameProduct = "iPhone 12";//el nuevo valor 
 		Products products = new Products(nameProduct, 320);//valores nuevos
@@ -69,6 +76,7 @@ public class ProductsTests {
 	}
 	
 	@Test
+	@Order(5)
 	public void testListProduct() {
 		List<Products> products = (List<Products>) repository.findAll();
 		
@@ -83,6 +91,7 @@ public class ProductsTests {
 	@Test
 	@Rollback(false)
 	//por default es true, pero para poder guardar datos tiene que ser false
+	@Order(6)
 	public void testDeleteProduct() {
 		Integer id = 4;
 		
